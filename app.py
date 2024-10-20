@@ -6,8 +6,7 @@ import os
 import json
 
 load_dotenv()
-MONGO_URL = "mongodb://localhost:27017/crisis_management"
-
+MONGO_URL = os.getenv("MONGO_URL")
 app = Flask(__name__, template_folder='templates', static_folder='static')
 
 app.config["MONGO_URI"] = MONGO_URL
