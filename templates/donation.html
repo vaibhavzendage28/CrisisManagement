@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CrisisManagementSystem</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="../static/css/style.css" />
+  </head>
+  <body>
+    <div class="container">
+      <div class="row">
+        <!-- Left Blank Side -->
+        <div class="col-lg-3"></div>
+
+        <!-- Right Side Form -->
+        <div
+          class="col-lg-6 d-flex align-items-center justify-content-center right-side"
+        >
+          <div class="form-2-wrapper">
+            <h2 class="text-center mb-4">Empower Hope</h2>
+            <form action="/donating" method="post">
+                <div class="mb-3 form-box">
+                    <label for="date">Enter the Date of Incident</label>
+                    <input
+                      type="date"
+                      class="form-control"
+                      id="date"
+                      name="date"
+                      placeholder="Enter the Date"
+                      required
+                    />
+                  </div>
+                  <div class="mb-3 focusArea">
+                    <label for="focusArea">Type: </label>
+                    <select id="focusArea" name="focusArea">
+                      <option value="Education">Monetary donations</option>
+                      <option value="Healthcare">In-kind donations (goods or services)</option>
+                      <option value="Environment">Volunteer time donations</option>
+                      <option value="Poverty Alleviation">Sponsorship donations</option>
+                      <option value="Human Rights">Event-specific donations</option>
+                      <option value="Other">Other</option>
+                    </select>
+                  </div>
+              <button
+                type="submit"
+                class="btn btn-outline-secondary login-btn w-100 mb-3"
+              >
+                Donate
+              </button>
+            </form>
+
+            <!-- Register Link -->
+            <p class="text-center register-test mt-3">
+              Don't have an account?
+              <a href="/register" class="text-decoration-none">Register here</a>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+      crossorigin="anonymous"
+    ></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+      $(document).ready(function () {
+        $("form").submit(function (event) {
+          event.preventDefault();
+          $.ajax({
+            type: "POST",
+            url: "/donating",
+            data: $("form").serialize(),
+            success: function (response) {
+              window.location.href = "/homePage"; // Redirect to homePage.html
+            },
+            error: function (xhr, status, error) {
+              var errorMessage = xhr.responseJSON.message;
+              alert(errorMessage); // Show the error message in an alert
+              setTimeout(function () {
+                location.reload(); // Reload the page after a delay
+              }, 0); 
+            },
+          });
+        });
+      });
+    </script>
+
+    <script src="../static/js/script.js"></script>
+  </body>
+</html>

@@ -1,0 +1,216 @@
+/* CSS Snippet */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  html,
+  body {
+    font-family: sans-serif;
+    width: 100%;
+    height: 100%;
+  }
+  
+  .inner-header {
+    box-shadow: 0px 4px 1px 0px rgba(0, 0, 0, 0.11);
+    background-color: #dddd;
+  }
+  
+  .container-header {
+    max-width: 1340px;
+    margin: 0 auto;
+  }
+  
+  .main-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 32px 22px;
+  }
+  
+  .logo > a {
+    text-decoration: none;
+    color: black;
+    font-weight: 500;
+    font-size: 1.5rem;
+  }
+  .bars > svg {
+    cursor: pointer;
+  }
+  .list-items > ul {
+    display: flex;
+    list-style: none;
+  }
+  
+  .list-items ul li {
+    padding: 0px 22px;
+  }
+  
+  .list-items ul li a {
+    text-decoration: none;
+    color: black;
+    font-size: 1rem;
+    font-weight: 500;
+    position: relative;
+  }
+  
+  .list-items ul li a::before {
+    content: "";
+    transition: 1s ease;
+    position: absolute;
+    width: 0;
+    border-bottom: 2px solid black;
+    top: 22px;
+  }
+  
+  .bars {
+    display: none;
+  }
+  
+  .list-items ul li a:hover::before {
+    width: 100%;
+  }
+  
+  @media only screen and (max-width: 900px) {
+    .bars {
+      display: block;
+    }
+  
+    .main-header {
+      position: relative;
+    }
+  
+    .active {
+      left: 0 !important;
+    }
+  
+    .list-items {
+      transition: 1s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: absolute;
+      top: 95px;
+      left: -100%;
+      width: 100%;
+      height: 100vh;
+      background-color: #ddd;
+    }
+  
+    .list-items ul {
+      padding: 22px 22px;
+      height: 100vh;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+  
+    .bars svg {
+      width: 35px;
+      height: 35px;
+    }
+  
+    .list-items ul li a {
+      color: black;
+    }
+  
+    .list-items ul li a::before {
+      content: none;
+    }
+  }
+  :root {
+    --border-color: #cccccc;
+    --background-color: #f1f1f1;
+    --transition: all 0.2s ease;
+  }
+  
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "DM Sans", sans-serif;
+    letter-spacing: -0.04em;
+  }
+  
+  main {
+    height:max-content;
+    display: flex;
+    margin-left:8%;
+    margin-top:5%;
+    padding: 20px;
+  }
+  
+  .accordion {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    max-width: 500px;
+  }
+  
+  .accordion .accordion-item {
+    background-color: var(--background-color);
+    border: 1px solid var(--border-color);
+    border-radius: 5px;
+    width:500px;
+  }
+  
+  .accordion .accordion-item .accordion-item-description-wrapper hr {
+    border: none;
+    border-top: 1px solid var(--border-color);
+    visibility: visible;
+  }
+  
+  .accordion .accordion-item.open .accordion-item-description-wrapper hr {
+    visibility: visible;
+  }
+  
+  .accordion .accordion-item .accordion-item-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px;
+    cursor: pointer;
+  }
+  
+  .accordion .accordion-item .accordion-item-header .accordion-item-header-title {
+    font-weight: 600;
+  }
+  
+  .accordion .accordion-item .accordion-item-header .accordion-item-header-icon {
+    transition: var(--transition);
+  }
+  
+  .accordion
+    .accordion-item.open
+    .accordion-item-header
+    .accordion-item-header-icon {
+    transform: rotate(-180deg);
+  }
+  
+  .accordion .accordion-item .accordion-item-description-wrapper {
+    display: grid;
+    grid-template-rows: 0fr;
+    overflow: hidden;
+    transition: var(--transition);
+  }
+  
+  .accordion .accordion-item.open .accordion-item-description-wrapper {
+    grid-template-rows: 1fr;
+  }
+  
+  .accordion
+    .accordion-item
+    .accordion-item-description-wrapper
+    .accordion-item-description {
+    min-height: 0;
+  }
+  
+  .accordion
+    .accordion-item
+    .accordion-item-description-wrapper
+    .accordion-item-description
+    p {
+    padding: 10px;
+    line-height: 1.5;
+  }
+    

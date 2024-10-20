@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="../static/css/donorProfile.css" />
+    <title>NGO</title>
+  </head>
+  <body>
+    <header>
+      <div class="inner-header">
+        <div class="container-header">
+          <div class="main-header">
+            <div class="bars" id="open">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                fill="currentColor"
+                class="bi bi-list"
+                viewBox="0 0 16 16"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5"
+                />
+              </svg>
+            </div>
+            <div class="logo">
+              <a href="#">Donor</a>
+            </div>
+            <nav class="list-items active" id="show">
+              <ul>
+                <li><a href="/homePage">Home</a></li>
+                <li><a href="#">About</a></li>
+                <li><a href="#">Contact</a></li>
+                <li><a href="#">Services</a></li>
+              </ul>
+            </nav>
+          </div>
+        </div>
+      </div>
+    </header>
+    <div class="donorInfo">
+        <div class="name">Name : {{donorName}}</div>
+        <div class="email">Email : {{donorEmail}}</div>
+    </div>
+    <div class="newDonations">
+      <a class="donationLink" href="/donation">New Donation</a>
+    </div>
+    <div>
+      <div class="History">
+        <h2 class="historyTitle">Previous Donations</h2>
+        {%for donation,ngoName in donation_details%}
+        <div class="ngo">
+          <h3 class="ngoName">NGO : {{ngoName[0]}}</h3>
+          <br>
+          <p>Date of Donation : {{donation[1]}}</p>
+          <p>Donation Type : {{donation[2]}}</p>
+        </div>
+        <br>
+        {%endfor%}
+      </div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,144 @@
+/* CSS Snippet */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  html,
+  body {
+    font-family: sans-serif;
+    width: 100%;
+    height: 100%;
+  }
+  
+  .inner-header {
+    box-shadow: 0px 4px 1px 0px rgba(0, 0, 0, 0.11);
+    background-color: #dddd;
+  }
+  
+  .container-header {
+    max-width: 1340px;
+    margin: 0 auto;
+  }
+  
+  .main-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 32px 22px;
+  }
+  
+  .logo > a {
+    text-decoration: none;
+    color: black;
+    font-weight: 500;
+    font-size: 1.5rem;
+  }
+  .bars > svg {
+    cursor: pointer;
+  }
+  .list-items > ul {
+    display: flex;
+    list-style: none;
+  }
+  
+  .list-items ul li {
+    padding: 0px 22px;
+  }
+  
+  .list-items ul li a {
+    text-decoration: none;
+    color: black;
+    font-size: 1rem;
+    font-weight: 500;
+    position: relative;
+  }
+  
+  .list-items ul li a::before {
+    content: "";
+    transition: 1s ease;
+    position: absolute;
+    width: 0;
+    border-bottom: 2px solid black;
+    top: 22px;
+  }
+  
+  .bars {
+    display: none;
+  }
+  
+  .list-items ul li a:hover::before {
+    width: 100%;
+  }
+  
+  @media only screen and (max-width: 900px) {
+    .bars {
+      display: block;
+    }
+  
+    .main-header {
+      position: relative;
+    }
+  
+    .active {
+      left: 0 !important;
+    }
+  
+    .list-items {
+      transition: 1s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: absolute;
+      top: 95px;
+      left: -100%;
+      width: 100%;
+      height: 100vh;
+      background-color: #ddd;
+    }
+  
+    .list-items ul {
+      padding: 22px 22px;
+      height: 100vh;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+  
+    .bars svg {
+      width: 35px;
+      height: 35px;
+    }
+  
+    .list-items ul li a {
+      color: black;
+    }
+  
+    .list-items ul li a::before {
+      content: none;
+    }
+  }
+  :root {
+    --border-color: #cccccc;
+    --background-color: #f1f1f1;
+    --transition: all 0.2s ease;
+  }
+
+  .profile{
+    width:auto;
+    background-color: #cccccc;
+    font-size:20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    padding:1rem;
+    border-bottom:2px solid gray;
+  }
+  .status{
+    margin-top:2rem;
+    width:auto;
+    text-align: center;
+    padding:2.5rem;
+    font-size:20px;
+    background-color: #f1f1f1;
+  }

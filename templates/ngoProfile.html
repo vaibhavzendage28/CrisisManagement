@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="../static/css/ngoProfile.css" />
+    <title>NGO</title>
+  </head>
+  <body>
+    <header>
+      <div class="inner-header">
+        <div class="container-header">
+          <div class="main-header">
+            <div class="bars" id="open">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                fill="currentColor"
+                class="bi bi-list"
+                viewBox="0 0 16 16"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5"
+                />
+              </svg>
+            </div>
+            <div class="logo">
+              <a href="#">NGO</a>
+            </div>
+            <nav class="list-items active" id="show">
+              <ul>
+                <li><a href="/homePage">Home</a></li>
+                <li><a href="#">About</a></li>
+                <li><a href="#">Contact</a></li>
+                <li><a href="#">Services</a></li>
+              </ul>
+            </nav>
+          </div>
+        </div>
+      </div>
+    </header>
+    <div class="victimsList">
+      {%for victim,details in victim_details%}
+      <div class="victim">
+        <h3>Victim : {{victim[1]}}</h3>
+        <p>Email : {{victim[2]}}</p>
+        <br />
+        {%for detail in details %}
+        <p>Date of request : {{detail[0]}}</p>
+        {%endfor%}
+        <div class="helpControl">
+          <a class="helpLink" href="/help/{{victim[0]}}">Help</a>
+        </div>
+      </div>
+      <br />
+      <br />
+      {%endfor%}
+    </div>
+  </body>
+</html>
