@@ -53,10 +53,10 @@
         <h2 class="historyTitle">Previous Donations</h2>
         {%for donation,ngoName in donation_details%}
         <div class="ngo">
-          <h3 class="ngoName">NGO : {{ngoName[0]}}</h3>
+          <h3 class="ngoName">NGO : {{ngoName}}</h3>
           <br>
-          <p>Date of Donation : {{donation[1]}}</p>
-          <p>Donation Type : {{donation[2]}}</p>
+          <p>Date of Donation : {{donation.donation_date}}</p>
+          <p>Donation Type : {{donation.donation_type}}</p>
         </div>
         <br>
         {%endfor%}

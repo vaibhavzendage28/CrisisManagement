@@ -4,6 +4,7 @@ from flask_pymongo import PyMongo
 from dotenv import load_dotenv
 import os
 import json
+from bson.objectid import ObjectId
 
 load_dotenv()
 MONGO_URL = os.getenv("MONGO_URL")
@@ -16,7 +17,7 @@ mongo = PyMongo(app)
 
 donations = mongo.db.donations
 donors = mongo.db.donors
-help = mongo.db.help
+help_collection = mongo.db.help_collection
 incidents = mongo.db.incidents
 ngos = mongo.db.ngos
 user_log = mongo.db.user_log
@@ -34,7 +35,7 @@ def register():
 @app.route('/logout', methods=['GET'])
 def logout():
     session.pop('loggedUser', None)  # Remove the user from session
-    return redirect('/login')  # Redirect to the login page
+    return redirect('/')  # Redirect to the login page
 
 @app.route('/victim')
 def victim():
@@ -57,9 +58,9 @@ def donation():
     
     # Fetching all NGO names from the MongoDB ngos collection
     ngos = mongo.db.ngos.find({}, {'Name': 1, '_id': 0})  # Projection to return only the Name field
-    
+    print(ngos)
     ngo_names = [ngo['Name'] for ngo in ngos]  # Extracting the names from the result
-    
+    print(ngo_names)
     # Rendering the donor.html template and passing the list of NGO names
     return render_template('donor.html', ngos=ngo_names)
 
@@ -148,7 +149,7 @@ def donating_to_ngo():
         donor_id = donor['_id']  # MongoDB ObjectId
 
     # Fetching NGO information
-    ngo = request.form['ngo']  # Make sure to retrieve the NGO name from the form
+    ngo = session['ngo']  
     ngo_data = mongo.db.ngos.find_one({'Name': ngo})
     if ngo_data:
         ngo_id = ngo_data['_id']  # MongoDB ObjectId
@@ -257,113 +258,81 @@ def Incident():
         message = "Incident registration failed. Please try again."
         return render_template('incident.html', message=message)
 
-    
-# @app.route('/profile')
-# def profile():
-#     sql = "select victim_id from victims where email = %s"
-#     val = (email,)
-#     myCursor.execute(sql,val)
-#     victimData = myCursor.fetchone()
-#     sql = "select ngo_id from ngos where Email = %s"
-#     val = (email,)
-#     myCursor.execute(sql,val)
-#     ngoData = myCursor.fetchone()
-#     sql = "select donor_id from donors where Email = %s"
-#     val = (email,)
-#     myCursor.execute(sql,val)
-#     donorData = myCursor.fetchone()
-#     message = ""
-#     if not victimData and not ngoData and not donorData:
-#         message="Your not registered for ngo ,victim or donor your are just user"
-#         return render_template('profile.html',email=email,name=loggedUser,message=message)
-#     # condition  for victim
-#     elif not ngoData and not donorData:
-#         sql = "select victim_id from victims where email = %s"
-#         val = (email,)
-#         myCursor.execute(sql,val)
-#         victimIdArr = myCursor.fetchone()
-#         victimId = victimIdArr[0]
-#         sql = "select ngo_id,date from help where victim_id = %s"
-#         val = (victimId,)
-#         myCursor.execute(sql,val)
-#         victimRequestApproval = myCursor.fetchall()
-#         if not victimRequestApproval:
-#             print("request not approved")
-#             message = "Your request is still pending"
-#             return render_template('profile.html',email=email,name=loggedUser,message=message)
-#         else :
-#             print(victimRequestApproval)
-#             ngoId = victimRequestApproval[0][0]
-#             print(ngoId)
-#             approvalDate = victimRequestApproval[0][1]
-#             print(approvalDate)
-#             sql = "select Name from ngos where ngo_id = %s"
-#             val = (ngoId,)
-#             myCursor.execute(sql,val)
-#             ngoNameArr = myCursor.fetchone()
-#             ngoName = ngoNameArr[0]
-#             message = "Your request is approved on {} by {} Ngo".format(approvalDate, ngoName)
-#             return render_template('profile.html',email=email,name=loggedUser,message=message)
-#     # condition for ngos
-#     elif not victimData and not donorData:
-#         sql = "select * from victims"
-#         myCursor.execute(sql)
-#         victims = myCursor.fetchall()
-#         victim_details = []
-#         for victim in victims: 
-#             sql = "select Date,Type,Location from incidents where victim_id = %s"
-#             val=(victim[0],)
-#             myCursor.execute(sql,val)
-#             Details = myCursor.fetchall()
-#             if Details:
-#                 victim_details.append((victim,Details))
-#         print(victim_details)
-#         return render_template('ngoProfile.html',victim_details=victim_details)
-#     # condition for donors
-#     elif not victimData and not ngoData:
-#         sql = "select donor_id,Name from donors where Email = %s"
-#         val = (email,)
-#         myCursor.execute(sql,val)
-#         donorIdArr = myCursor.fetchall()
-#         donorId = donorIdArr[0][0]
-#         donorName = donorIdArr[0][1]
-#         print(donorId)
-#         sql = "select ngo_id,donation_date,donation_type from donations where donor_id = %s"
-#         val=(donorId,)
-#         myCursor.execute(sql,val)
-#         donationDetailsArr = myCursor.fetchall()
-#         print(donationDetailsArr)
-#         donation_details = []
-#         for donation in donationDetailsArr: 
-#             sql = "select Name from ngos where ngo_id = %s"
-#             val=(donation[0],)
-#             myCursor.execute(sql,val)
-#             ngoName = myCursor.fetchone()
-#             donation_details.append((donation,ngoName))
-#         return render_template('donorProfile.html',donation_details=donation_details,donorName=donorName,donorEmail=email)
+@app.route('/profile')
+def profile():
+    email = session['loggedEmail']  # Get logged user email from session
+    victimData = victims.find_one({'email': email})
+    # victimData = list(victim_data)
+    ngoData = ngos.find_one({'Email': email})
+    # ngoData = list(ngo_data)
+    donorData = donors.find_one({'Email': email})
+    # donorData = list(donor_data)
+    message = ""
 
-# @app.route('/help/<id>')
-# def help(id):
-#     victimID = id
-#     today = date.today()
-    
-#     sql = "select ngo_id from ngos where Email = %s"
-#     val = (email,)
-#     myCursor.execute(sql,val)
-#     ngoIDArr = myCursor.fetchone()
-#     ngoID = ngoIDArr[0]
-    
-#     sql = "insert into help(victim_id,ngo_id,date) values(%s,%s,%s)"
-#     val=(victimID,ngoID,today)
-#     myCursor.execute(sql,val)
-#     mydb.commit()
-    
-#     sql = "delete from incidents where victim_id = %s"
-#     val = (victimID,)
-#     myCursor.execute(sql,val)
-#     mydb.commit()
-    
-#     return redirect('/profile')
+    if victims.count_documents({'email': email}) == 0 and ngos.count_documents({'Email': email}) == 0 and donors.count_documents({'Email': email}) == 0:
+        message = "You're not registered as a victim, NGO, or donor. You are just a user."
+        return render_template('profile.html', email=email, name=session['loggedUser'], message=message)
+
+    # Condition for victim
+    elif  ngos.count_documents({'Email': email}) == 0 and donors.count_documents({'Email': email}) == 0:
+        victim = victims.find_one({'email': email})
+        victimId = victim['_id']  # Assuming _id is the victim_id in MongoDB
+        victimRequestApproval = help_collection.find({'victim_id': victimId})
+
+        victimRequestApproval = list(victimRequestApproval)
+
+        if not victimRequestApproval:
+            print("Request not approved")
+            message = "Your request is still pending"
+            return render_template('profile.html', email=email, name=session['loggedUser'], message=message)
+         
+        print(victimRequestApproval)
+        ngoId = victimRequestApproval[0]['ngo_id']
+        approvalDate = victimRequestApproval[0]['date']
+        ngoName = ngos.find_one({'_id': ngoId})['Name']
+        message = f"Your request was approved on {approvalDate} by {ngoName} NGO."
+        return render_template('profile.html', email=email, name=session['loggedUser'], message=message)
+    # Condition for NGOs
+    elif victims.count_documents({'email': email}) == 0 and donors.count_documents({'Email': email}) == 0:
+        victims_list = victims.find({})
+        victim_details = []
+        for victim in victims_list:
+            incident_details = incidents.find({'victim_id': victim['_id']})
+            
+            if len(list(incident_details)) > 0 :
+                victim_details.append((victim, list(incident_details)))
+        return render_template('ngoProfile.html', victim_details=victim_details)
+
+    # Condition for donors
+    elif victims.count_documents({'email': email}) == 0 and  ngos.count_documents({'Email': email}) == 0:
+        donor = donors.find_one({'Email': email})
+        donorId = donor['_id']
+        donorName = donor['Name']
+        donation_details = []
+        donationRecords = donations.find({'donor_id': donorId})
+
+        for donation in donationRecords:
+            ngoName = ngos.find_one({'_id': donation['ngo_id']})['Name']
+            donation_details.append((donation, ngoName))
+
+        return render_template('donorProfile.html', donation_details=donation_details, donorName=donorName, donorEmail=email)
+
+
+@app.route('/help/<id>')
+def help(id):
+    victimID = id
+    today = date.today()
+    today_str = today.strftime("%Y-%m-%d")
+
+    ngoData = ngos.find_one({'Email': session['loggedEmail']})
+    ngoID = ngoData['_id']
+    # Insert help record into the help collection
+    help_collection.insert_one({'victim_id': ObjectId(victimID), 'ngo_id': ngoID, 'date': today_str})
+
+    # Delete incidents associated with the victim
+    incidents.delete_many({'victim_id': ObjectId(victimID)})
+
+    return redirect('/profile')
 
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))

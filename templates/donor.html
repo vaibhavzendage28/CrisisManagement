@@ -46,7 +46,7 @@
         {%for ngo in ngos%}
           <div class="accordion-item">
             <div class="accordion-item-header">
-              <span class="accordion-item-header-title">{{ngo[0]}}</span>
+              <span class="accordion-item-header-title">{{ngo}}</span>
               <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-down accordion-item-header-icon">
                 <path d="m6 9 6 6 6-6" />
               </svg>
@@ -54,7 +54,7 @@
             <div class="accordion-item-description-wrapper">
               <div class="accordion-item-description">
                 <hr>
-                <p><a href="/ngo/{{ngo[0].replace(" ","-")}}">{{ngo[0]}}</a></p>
+                <p><a href="/ngo/{{ngo.replace(" ","-")}}">{{ngo}}</a></p>
               </div>
             </div>
           </div>
