@@ -1,10 +1,10 @@
-from flask import Flask, session, render_template, request, jsonify, redirect
+from flask import Flask, session, render_template, request, jsonify, redirect # type: ignore
 from datetime import date
-from flask_pymongo import PyMongo
-from dotenv import load_dotenv
+from flask_pymongo import PyMongo # type: ignore
+from dotenv import load_dotenv # type: ignore
 import os
 import json
-from bson.objectid import ObjectId
+from bson.objectid import ObjectId # type: ignore
 
 load_dotenv()
 MONGO_URL = os.getenv("MONGO_URL")
